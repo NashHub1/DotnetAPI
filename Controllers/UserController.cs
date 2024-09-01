@@ -7,15 +7,25 @@ namespace DotnetAPI.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    public UserController()
-    {
+    DataContextDapper _dapper;
 
+    public UserController(IConfiguration config)
+    {
+        _dapper = new DataContextDapper(config);
     }
+
+    [HttpGet("TestConnection")]
+    public DateTime TestConnection()
+    {
+        return _dapper.LoadDataSingle<DateTime>("SELECT GETDATE()");
+    }
+
+
 
     [HttpGet("GetUsers/{testValue}")]
     // [HttpGet("test")]
     // public IActionResult Test()
-    public string[] GetUsers(string testValue)
+    public string[] GetUserstest(string testValue)
     {
         string[] responseArray = new string[] {
             "test1",
